@@ -1,0 +1,18 @@
+HoNa2020:
+  model: HoNa2020
+  label: injection
+  prior: ../priors/HoNa2020.prior
+  tmin: 0.1
+  tmax: 10
+  dt-inj: 0.1
+  injection-num: 14
+  nlive: 2048
+  generation-seed: 42
+  filters: NUV
+  remove-nondetections: true
+  detection-limit-fits-file: 4678_with_limmag.ecsv
+  plot: True
+  ra: 40.51221773
+  dec: -32.53253682
+  outdir: ./ModelUvex
+  injection: ./HoNa2020_injection.json
