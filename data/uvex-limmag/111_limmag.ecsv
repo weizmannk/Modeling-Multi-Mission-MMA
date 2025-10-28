@@ -1,0 +1,168 @@
+# %ECSV 1.0
+# ---
+# datatype:
+# - {name: action, datatype: string, description: Action for the spacecraft}
+# - {name: start_time, datatype: string, description: Start time of segment}
+# - {name: duration, unit: s, datatype: float64, description: Duration of segment}
+# - {name: observer_location.x, unit: km, datatype: float64, description: Position of the spacecraft}
+# - {name: observer_location.y, unit: km, datatype: float64, description: Position of the spacecraft}
+# - {name: observer_location.z, unit: km, datatype: float64, description: Position of the spacecraft}
+# - {name: target_coord.ra, unit: deg, datatype: float64}
+# - {name: target_coord.dec, unit: deg, datatype: float64}
+# - {name: roll, unit: deg, datatype: float64, description: Position angle of the FOV}
+# - {name: limmag, datatype: float64}
+# - {name: dust, datatype: float64}
+# - {name: background, datatype: float64}
+# - {name: prob, datatype: float64}
+# - {name: dist, datatype: float64}
+# - {name: detection_prob, datatype: float64}
+# meta: !!omap
+# - {command: '/home/lsinger/.cache/pypoetry/virtualenvs/m4opt-paper-QfSJXS---py3.11/lib/python3.11/site-packages/distributed/cli/dask_worker.py
+#     tcp://198.202.103.224:43727 --name SLURMCluster-193 --nthreads 1 --memory-limit 16.00GiB --nanny --death-timeout 60 --lifetime 715m
+#     --lifetime-stagger 4m'}
+# - {version: 0.1.dev511+ga1fb53c}
+# - args:
+#     absmag_mean: -12.4
+#     absmag_stdev: 1.3
+#     bandpass: NUV
+#     cutoff: 0.1
+#     deadline: !astropy.units.Quantity
+#       unit: !astropy.units.Unit {unit: h}
+#       value: 6.0
+#     delay: !astropy.units.Quantity
+#       unit: !astropy.units.Unit {unit: d}
+#       value: 0.0
+#     exptime_max: !astropy.units.Quantity
+#       unit: &id001 !astropy.units.Unit {unit: s}
+#       value: .inf
+#     exptime_min: !astropy.units.Quantity
+#       unit: *id001
+#       value: 300.0
+#     mission: uvex
+#     nside: 128
+#     skymap: data/O5/111.fits
+#     snr: 5.0
+#     time_step: !astropy.units.Quantity
+#       unit: !astropy.units.Unit {unit: min}
+#       value: 1.0
+#     visits: 2
+# - {objective_value: 0.08041340328434445}
+# - {best_bound: 0.11294925997753502}
+# - {solution_status: time limit exceeded}
+# - solution_time: !astropy.units.Quantity
+#     unit: *id001
+#     value: 7203.331071138382
+# - total_time:
+#     observe: !astropy.units.Quantity
+#       unit: *id001
+#       value: 20593.38318387662
+#     slack: !astropy.units.Quantity
+#       unit: *id001
+#       value: 0.0
+#     slew: !astropy.units.Quantity
+#       unit: *id001
+#       value: 1006.6168161233805
+# - __serialized_columns__:
+#     background:
+#       __class__: astropy.utils.masked.core.MaskedNDArray
+#       data: !astropy.table.SerializedColumn {name: background}
+#     detection_prob:
+#       __class__: astropy.utils.masked.core.MaskedNDArray
+#       data: !astropy.table.SerializedColumn {name: detection_prob}
+#     dist:
+#       __class__: astropy.utils.masked.core.MaskedNDArray
+#       data: !astropy.table.SerializedColumn {name: dist}
+#     duration:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: *id001
+#       value: !astropy.table.SerializedColumn {name: duration}
+#     dust:
+#       __class__: astropy.utils.masked.core.MaskedNDArray
+#       data: !astropy.table.SerializedColumn {name: dust}
+#     limmag:
+#       __class__: astropy.utils.masked.core.MaskedNDArray
+#       data: !astropy.table.SerializedColumn {name: limmag}
+#     observer_location:
+#       __class__: astropy.coordinates.earth.EarthLocation
+#       __info__: {description: Position of the spacecraft}
+#       ellipsoid: WGS84
+#       x: !astropy.table.SerializedColumn
+#         __class__: astropy.units.quantity.Quantity
+#         __info__: {description: Position of the spacecraft}
+#         unit: &id002 !astropy.units.Unit {unit: km}
+#         value: !astropy.table.SerializedColumn
+#           __class__: astropy.utils.masked.core.MaskedNDArray
+#           data: !astropy.table.SerializedColumn {name: observer_location.x}
+#       y: !astropy.table.SerializedColumn
+#         __class__: astropy.units.quantity.Quantity
+#         __info__: {description: Position of the spacecraft}
+#         unit: *id002
+#         value: !astropy.table.SerializedColumn
+#           __class__: astropy.utils.masked.core.MaskedNDArray
+#           data: !astropy.table.SerializedColumn {name: observer_location.y}
+#       z: !astropy.table.SerializedColumn
+#         __class__: astropy.units.quantity.Quantity
+#         __info__: {description: Position of the spacecraft}
+#         unit: *id002
+#         value: !astropy.table.SerializedColumn
+#           __class__: astropy.utils.masked.core.MaskedNDArray
+#           data: !astropy.table.SerializedColumn {name: observer_location.z}
+#     prob:
+#       __class__: astropy.utils.masked.core.MaskedNDArray
+#       data: !astropy.table.SerializedColumn {name: prob}
+#     roll:
+#       __class__: astropy.units.quantity.Quantity
+#       __info__: {description: Position angle of the FOV}
+#       unit: &id003 !astropy.units.Unit {unit: deg}
+#       value: !astropy.table.SerializedColumn
+#         __class__: astropy.utils.masked.core.MaskedNDArray
+#         data: !astropy.table.SerializedColumn {name: roll}
+#     start_time:
+#       __class__: astropy.time.core.Time
+#       format: iso
+#       in_subfmt: '*'
+#       out_subfmt: '*'
+#       precision: 0
+#       scale: utc
+#       value: !astropy.table.SerializedColumn {name: start_time}
+#     target_coord:
+#       __class__: astropy.coordinates.sky_coordinate.SkyCoord
+#       __info__: {description: Coordinates of the center of the FOV}
+#       dec: !astropy.table.SerializedColumn
+#         __class__: astropy.coordinates.angles.core.Latitude
+#         unit: *id003
+#         value: !astropy.table.SerializedColumn
+#           __class__: astropy.utils.masked.core.MaskedNDArray
+#           data: !astropy.table.SerializedColumn {name: target_coord.dec}
+#       frame: icrs
+#       ra: !astropy.table.SerializedColumn
+#         __class__: astropy.coordinates.angles.core.Longitude
+#         unit: *id003
+#         value: !astropy.table.SerializedColumn
+#           __class__: astropy.utils.masked.core.MaskedNDArray
+#           data: !astropy.table.SerializedColumn {name: target_coord.ra}
+#         wrap_angle: !astropy.coordinates.Angle
+#           unit: *id003
+#           value: 360.0
+#       representation_type: spherical
+# schema: astropy-2.0
+action start_time duration observer_location.x observer_location.y observer_location.z target_coord.ra target_coord.dec roll limmag dust background prob dist detection_prob
+observe "2011-11-16 10:46:50" 1468.884668944193 186140.6882336242 62347.715122224756 -8768.489464619137 186.618728897861 41.27417974501109 -44.085836340060915 25.37016229294043 0.07413131046212987 27.618680367500215 0.0366405911553761 521.8874116885733 0.010269537852609076
+slew "2011-11-16 11:11:19" 103.12976440442927 "" "" "" "" "" "" "" "" "" "" "" ""
+observe "2011-11-16 11:13:02" 586.3429342431996 193332.27364256815 38585.29105382206 -8831.175834236252 185.3099571961892 43.8728738728404 -44.64891291977278 24.641705991333378 0.06439711066415503 27.65913285168541 0.014405225866989215 462.81137555162775 0.002859430472088491
+slew "2011-11-16 11:22:48" 139.87852446569815 "" "" "" "" "" "" "" "" "" "" "" ""
+observe "2011-11-16 11:25:08" 1863.722030577391 195635.979192469 27313.82071224668 -8859.767994194823 172.05670430607873 44.998183307947905 -54.94416346850196 25.56162303830049 0.06865046112474618 27.675209527988475 0.08906206101864941 593.3221541274411 0.02278959798013421
+slew "2011-11-16 11:56:12" 103.58333538069104 "" "" "" "" "" "" "" "" "" "" "" ""
+observe "2011-11-16 11:57:55" 4093.5467549942077 198550.2130182155 -3780.1076237666252 -8936.06325547056 169.66456352317817 42.75367387912714 -56.93232956790492 26.0948609759022 0.0654341360968852 27.645026849671943 0.11087413752882094 595.4766689702301 0.04327696850617482
+slew "2011-11-16 13:06:09" 103.61190014280814 "" "" "" "" "" "" "" "" "" "" "" ""
+observe "2011-11-16 13:07:52" 2284.1952031793194 188304.3477743938 -69826.76835895178 -9093.216464661748 167.5365871183765 45.15822218812592 -58.29781310057557 25.707274164030437 0.0576835748328161 27.67440552083412 0.10925018999561173 606.0082513541357 0.030453306117297657
+slew "2011-11-16 13:45:57" 103.61190014280814 "" "" "" "" "" "" "" "" "" "" "" ""
+observe "2011-11-16 13:47:40" 4093.5467549942077 172728.57228047683 -104950.77747564296 -9179.241431522198 169.66456352317817 42.75367387912714 -56.93232956790492 26.095020524891176 0.0654341360968852 27.645487672852852 0.11087413752882094 595.4766689702301 0.04328178470979669
+slew "2011-11-16 14:55:54" 103.61190014280814 "" "" "" "" "" "" "" "" "" "" "" ""
+observe "2011-11-16 14:57:37" 2284.1952031793194 130047.62713386098 -157643.25828138686 -9324.586661047277 167.5365871183765 45.15822218812592 -58.29781310057557 25.707409543688552 0.0576835748328161 27.67484993514337 0.10925018999561173 606.0082513541357 0.030456896672462833
+slew "2011-11-16 15:35:42" 106.18120257401037 "" "" "" "" "" "" "" "" "" "" "" ""
+observe "2011-11-16 15:37:28" 1863.722030577391 98453.14763030448 -180542.18619039882 -9404.06137752382 172.05670430607873 44.998183307947905 -54.94416346850196 25.561916079404476 0.06865046112474618 27.676225895370127 0.08906206101864941 593.3221541274411 0.022795660028447004
+slew "2011-11-16 16:08:31" 139.87852446569815 "" "" "" "" "" "" "" "" "" "" "" ""
+observe "2011-11-16 16:10:51" 586.3429342431996 68877.46997488134 -194901.09447234607 -9468.851645985142 185.3099571961892 43.8728738728404 -44.64891291977278 24.641980363860363 0.06439711066415503 27.660645648838603 0.014405225866989215 462.81137555162775 0.002860192451860062
+slew "2011-11-16 16:20:38" 103.12976440442927 "" "" "" "" "" "" "" "" "" "" "" ""
+observe "2011-11-16 16:22:21" 1468.884668944193 58188.57219590527 -198739.02051637415 -9490.764909134676 186.618728897861 41.27417974501109 -44.085836340060915 25.370643746549874 0.07413131046212987 27.620440063370772 0.0366405911553761 521.8874116885733 0.010273848444340731
