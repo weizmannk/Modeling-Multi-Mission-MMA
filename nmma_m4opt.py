@@ -12,6 +12,7 @@ import logging
 import numpy as np
 import glob
 import json
+import shlex
 
 logging.basicConfig(
     level=logging.INFO,
@@ -26,11 +27,26 @@ eos_file = "nmma/example_files/eos/ALF2.dat"
 output = "ouptput"
 injecjon_file_name = "HoNa2020_injection"
 
-cmd = f"nmma-create-injection --prior-file {prior_file} --injection-file {injection_file} --eos-file {eos_file} --binary-type BNS --extension json -f {output}/{injecjon_file_name} --generation-seed 42 --aligned-spin"
+interpolation_type = "tensorflow"
 
+# cmd =  f"nmma-create-injection --prior-file {prior_file} --injection-file {injection_file} --eos-file {eos_file} --binary-type BNS --extension json -f {output}/{injecjon_file_name} --generation-seed 42 --aligned-spin"
+
+cmd = [
+    "nmma-create-injection",
+    "--prior-file", prior_file,
+    "--injection-file", injection_file,
+    "--eos-file", eos_file,
+    "--binary-type", "BNS",
+    "--extension", "json",
+    "-f", f"{output}/{injecjon_file_name}",
+    "--generation-seed", "42",
+    "--aligned-spin"
+]
+
+print(' '.join(shlex.quote(arg) for arg in cmd))
 try:
     completed = subprocess.run(
-        cmd.split(),
+        cmd, 
         check=False,
         capture_output=True,
         text=True
@@ -121,37 +137,43 @@ for event_file in glob.glob(f"{m4opt_ouput_dir}/*.ecsv"):
         
 
         # Detection limit and filters strings
-        detection_limit_str = ', '.join([str(lim) for lim in detection_limits])
-        filter_str = ','.join([bandpass for _ in detection_limits])
+        # detection_limit_str = ', '.join([str(lim) for lim in detection_limits])
+        # filter_str = ','.join([bandpass for _ in detection_limits])
 
-        detection_limit_dict = {f"{bandpass}" : lim for lim in detection_limits}
+        # detection_limit_dict = {f"{bandpass}" : lim for lim in detection_limits}
+        # detection_limit_json = json.dumps(detection_limit_dict, separators=(",", ":"))
+
+        detection_limit_dict = {f"{bandpass}" : np.max(detection_limits)}
         detection_limit_json = json.dumps(detection_limit_dict, separators=(",", ":"))
 
         # Build command for analysis
-        cmd_analysis = (
-            f"lightcurve-analysis --model {model_name} "
-            f"--label {model_name}_injection "
-            f"--prior {prior_file} "
-            f"--injection {output}/{injecjon_file_name}.json "
-            f"--tmin 0.1 --tmax 2 --dt-inj 1 "
-            f"--injection-num {event_id} "
-            f"--outdir {output}/{event_id} "
-            f"--remove-nondetections "
-            f"--nlive 2048 "
-            f"--filters {filter_str} "
-            f"--detection-limit  '{detection_limit_json}' "
-            f"--plot "
-            f"--generation-seed 42"
-        )
-        print(cmd_analysis)
+        cmd_analysis = [
+            "lightcurve-analysis",
+            "--model", model_name,
+            "--label", "t",
+            "--prior", prior_file,
+            "--injection", f"{output}/{injecjon_file_name}.json",
+            "--tmin", "0.1",
+            "--tmax", "10",
+            "--dt-inj", "1",
+            "--injection-num", str(event_id),
+            "--outdir", output,
+            "--nlive", "2048",
+            "--filters", bandpass,
+            "--detection-limit", detection_limit_json,
+            "--plot",
+            "--generation-seed", "42",
+            #"--sampler", "dynesty",
+            "--interpolation-type", interpolation_type
+        ]
+
+        print(shlex.join(cmd_analysis))
         logging.info(f"Running analysis for event {event_id}")
 
         # Run the analysis command
-        # subprocess.run(cmd_analysis.split(), check=True)
-
         try:
             completed = subprocess.run(
-                cmd_analysis.split(),
+                cmd_analysis,
                 check=False,
                 capture_output=True,
                 text=True
