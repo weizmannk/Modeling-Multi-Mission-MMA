@@ -1,3 +1,8 @@
+# nmma-create-injection --prior-file nmma/priors/HoNa2020.prior --injection-file ./data/uvex_bns_O5.ecsv --eos-file nmma/example_files/eos/ALF2.dat --binary-type BNS --extension json -f ouptput/HoNa2020_injection --generation-seed 42 --aligned-spin
+
+# lightcurve-analysis --model HoNa2020 --label t --prior nmma/priors/HoNa2020.prior --injection ouptput/HoNa2020_injection.json --injection-outfile ouptput/lc.csv --tmin 0.1 --tmax 10 --dt-inj 1 --injection-num 14 --outdir ouptput --nlive 2048 --filters NUV --detection-limit '{"NUV":26.22700152470179}' --generation-seed 42 --interpolation-type tensorflow --plot
+
+
 from astropy.table import QTable
 from astropy import units as u
 import shutil
@@ -28,8 +33,6 @@ output = "ouptput"
 injecjon_file_name = "HoNa2020_injection"
 
 interpolation_type = "tensorflow"
-
-# cmd =  f"nmma-create-injection --prior-file {prior_file} --injection-file {injection_file} --eos-file {eos_file} --binary-type BNS --extension json -f {output}/{injecjon_file_name} --generation-seed 42 --aligned-spin"
 
 cmd = [
     "nmma-create-injection",
@@ -153,6 +156,7 @@ for event_file in glob.glob(f"{m4opt_ouput_dir}/*.ecsv"):
             "--label", "t",
             "--prior", prior_file,
             "--injection", f"{output}/{injecjon_file_name}.json",
+            "--injection-outfile",   f"{output}/lc.csv",
             "--tmin", "0.1",
             "--tmax", "10",
             "--dt-inj", "1",
@@ -161,10 +165,10 @@ for event_file in glob.glob(f"{m4opt_ouput_dir}/*.ecsv"):
             "--nlive", "2048",
             "--filters", bandpass,
             "--detection-limit", detection_limit_json,
-            "--plot",
             "--generation-seed", "42",
             #"--sampler", "dynesty",
-            "--interpolation-type", interpolation_type
+            "--interpolation-type", interpolation_type,
+            "--plot"
         ]
 
         print(shlex.join(cmd_analysis))
@@ -189,4 +193,5 @@ for event_file in glob.glob(f"{m4opt_ouput_dir}/*.ecsv"):
 
 
 
-# lightcurve-analysis --model HoNa2020 --label HoNa2020_injection --prior nmma/priors/HoNa2020.prior --injection ouptput/HoNa2020_injection.json --tmin 0. --tmax 2 --dt-inj 1 --injection-num 14 --outdir ouptput/14 --remove-nondetections --nlive 2048 --filters NUV,NUV,NUV --detection-limit 26.226225757951685,25.457474964255017,26.22700152470179 --plot --generation-seed 42
+
+
