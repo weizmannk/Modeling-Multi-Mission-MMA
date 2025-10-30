@@ -32,7 +32,10 @@ eos_file = "nmma/example_files/eos/ALF2.dat"
 output = "ouptput"
 injecjon_file_name = "HoNa2020_injection"
 
-interpolation_type = "tensorflow"
+interpolation_type = "sklearn_gp"
+sampler = "pymultinest"
+
+ylim = "80,20"
 
 cmd = [
     "nmma-create-injection",
@@ -153,7 +156,7 @@ for event_file in glob.glob(f"{m4opt_ouput_dir}/*.ecsv"):
         cmd_analysis = [
             "lightcurve-analysis",
             "--model", model_name,
-            "--label", "t",
+            "--label", f"{model_name}_injection",
             "--prior", prior_file,
             "--injection", f"{output}/{injecjon_file_name}.json",
             "--injection-outfile",   f"{output}/lc.csv",
@@ -164,11 +167,12 @@ for event_file in glob.glob(f"{m4opt_ouput_dir}/*.ecsv"):
             "--outdir", output,
             "--nlive", "2048",
             "--filters", bandpass,
-            "--detection-limit", detection_limit_json,
+           # "--detection-limit", detection_limit_json,
             "--generation-seed", "42",
-            #"--sampler", "dynesty",
+            "--sampler", sampler,
             "--interpolation-type", interpolation_type,
-            "--plot"
+            "--plot",
+            "--ylim", ylim
         ]
 
         print(shlex.join(cmd_analysis))
@@ -193,5 +197,7 @@ for event_file in glob.glob(f"{m4opt_ouput_dir}/*.ecsv"):
 
 
 
+# lilightcurve-analysis --model Bu2019lm --label Bu2019lm_injection --prior nmma/priors/Bu2019lm.prior --injection ouptput2/Bu2019lm_injection.json --injection-outfile ouptput2/lc.csv --tmin 0.1 --tmax 10 --dt-inj 1 --injection-num 14 --outdir ouptput2 --nlive 2048 --filters ultrasat --generation-seed 42 --sampler pymultinest --interpolation-type tensorflow --svd-path nmma-models/models --plot --ylim 35,20 --local-only
 
 
+# nmma-create-injection --prior-file nmma/priors/Bu2019lm.prior --injection-file ./data/uvex_bns_O5.ecsv --eos-file nmma/example_files/eos/ALF2.dat --binary-type BNS --extension json -f ouptput2/Bu2019lm_injection --generation-seed 42 --aligned-spin 
