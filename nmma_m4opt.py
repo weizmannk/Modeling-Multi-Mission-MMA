@@ -29,13 +29,14 @@ model_name = "HoNa2020"
 prior_file = "nmma/priors/HoNa2020.prior"
 injection_file = "./data/uvex_bns_O5.ecsv"
 eos_file = "nmma/example_files/eos/ALF2.dat"
-output = "ouptput"
+output = "ouptputTest"
 injecjon_file_name = "HoNa2020_injection"
 
 interpolation_type = "sklearn_gp"
 sampler = "pymultinest"
+ylim = "=30,15"
 
-ylim = "80,20"
+detected_events = [3378, 1276, 2020]
 
 cmd = [
     "nmma-create-injection",
@@ -94,7 +95,7 @@ for event_file in glob.glob(f"{m4opt_ouput_dir}/*.ecsv"):
     except Exception as exc:
         logging.error(f"Failed to read event file {event_file}: {exc}")
     
-    if event_id != 14:
+    if event_id not in detected_events:
         continue  # Process only event_id 14 for demonstration
 
     # Check if the event_id is in the simulation_id list
@@ -134,6 +135,9 @@ for event_file in glob.glob(f"{m4opt_ouput_dir}/*.ecsv"):
         ra_unique = np.array(first_visits["target_coord"].ra.deg)
         dec_unique = np.array(first_visits["target_coord"].dec.deg)
         times_unique = np.array(first_visits["start_time"])
+
+        extinction_dust = first_visits["dust"]
+        background_sky = first_visits["background"]
         
         logging.info(f"Event {event_id}: {len(observations)} observations -> {len(first_visits)} unique positions")
         
@@ -149,6 +153,7 @@ for event_file in glob.glob(f"{m4opt_ouput_dir}/*.ecsv"):
         # detection_limit_dict = {f"{bandpass}" : lim for lim in detection_limits}
         # detection_limit_json = json.dumps(detection_limit_dict, separators=(",", ":"))
 
+        # bandpass = "FUV"
         detection_limit_dict = {f"{bandpass}" : np.max(detection_limits)}
         detection_limit_json = json.dumps(detection_limit_dict, separators=(",", ":"))
 
@@ -156,23 +161,25 @@ for event_file in glob.glob(f"{m4opt_ouput_dir}/*.ecsv"):
         cmd_analysis = [
             "lightcurve-analysis",
             "--model", model_name,
-            "--label", f"{model_name}_injection",
+            "--label", f"{model_name}_injection_{event_id}",
             "--prior", prior_file,
             "--injection", f"{output}/{injecjon_file_name}.json",
-            "--injection-outfile",   f"{output}/lc.csv",
+            "--injection-outfile",   f"{output}/{event_id}/lc_{event_id}.csv",
             "--tmin", "0.1",
             "--tmax", "10",
-            "--dt-inj", "1",
+            "--dt-inj", "0.5",
             "--injection-num", str(event_id),
-            "--outdir", output,
+            "--outdir", f"{output}/{event_id}",
             "--nlive", "2048",
+            "--mission-name", f"{mission}",
             "--filters", bandpass,
-           # "--detection-limit", detection_limit_json,
+            "--detection-limit", detection_limit_json,
             "--generation-seed", "42",
             "--sampler", sampler,
             "--interpolation-type", interpolation_type,
             "--plot",
-            "--ylim", ylim
+            f"--ylim{ylim}",
+            "--remove-nondetections"
         ]
 
         print(shlex.join(cmd_analysis))
@@ -201,3 +208,4 @@ for event_file in glob.glob(f"{m4opt_ouput_dir}/*.ecsv"):
 
 
 # nmma-create-injection --prior-file nmma/priors/Bu2019lm.prior --injection-file ./data/uvex_bns_O5.ecsv --eos-file nmma/example_files/eos/ALF2.dat --binary-type BNS --extension json -f ouptput2/Bu2019lm_injection --generation-seed 42 --aligned-spin 
+
